@@ -1,12 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2021-02-20 18:42:13
- * @LastEditTime: 2021-02-21 13:43:25
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \electron-vue-vite\src\render\core\common\IPChannelClient.ts
- */
-
 import { Event } from "../utils/base/event";
 import { VSBuffer } from "../utils/base/buffer";
 import { CancelablePromise, CancellationToken, createCancelablePromise } from "../utils/base/cancelablePromise/cancelablePromise";
