@@ -13,7 +13,7 @@ const child_pross = require("child_process")
 
 import { File } from "../js/libary";
 // interface
-import { ConfigYaml,YamlError } from "./utilInterface";
+import { checkline, ConfigYaml,YamlError } from "./utilInterface";
 
 
 /**

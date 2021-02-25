@@ -1,11 +1,3 @@
-/*
- * @Author: wingdust
- * @Date: 2020-09-03 16:10:28
- * @LastEditTime: 2021-01-28 12:53:20
- * @LastEditors: Please set LastEditors
- * @Description: 读取文件树的运行函数文件
- * @FilePath: \electron-vue-vite\src\render\node\read.ts
- */
 
 import { File } from "../js/libary";
 import { Tree,Node } from "../js/DataStructure/Tree";
