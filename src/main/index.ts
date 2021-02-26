@@ -4,9 +4,39 @@
 import { join } from 'path'
 import { app, BrowserWindow,protocol,ipcMain,contentTracing } from 'electron'
 import dotenv from 'dotenv'
-import {  createServerProcess,sendWindowMessage } from "./lib/ElectronAPI";
-import is_dev from 'electron-is-dev'
+import { createMainWin,createServerProcess,sendWindowMessage } from "./lib/ElectronAPI";
 // const {BaseWindow} = require('sugar-electron')
+
+import { Event,Emitter } from "../common/utils/base/event";
+import { VSBuffer } from 'src/common/utils/base/buffer';
+import { serialize } from 'src/common/utils/base/buffer-utils';
+
+function doesNotReturn() {
+}
+// 箭头函数代码中只有一行，可去掉大括号，写成 void [code]
+let fn1 = () => void doesNotReturn();
+// [箭头函数可以与变量解构](https://es6.ruanyifeng.com/?search=...&x=0&y=0#docs/function)
+
+const fn = (e:any,m:any)=>({e,m})
+interface re{
+  e:Electron.IpcMainEvent,
+  m:any
+}
+const onHello = Event.fromNodeEventEmitter<re>(ipcMain,'ipc:hello',(e,m)=>({e,m}))
+Event.filter(onHello,(e:re)=>{
+  return e.e.frameId === 1
+})
+onHello((e)=>{
+  console.trace(e);
+  // console.log(args);
+})
+
+ipcMain.on('ipc:hello',(e:Electron.IpcMainEvent,args:any)=>{
+})
+
+
+
+
 
 console.log("Main 进程");
 
@@ -28,35 +58,7 @@ app.on('ready',async ()=>{
     }
   })
 })
-function createMainWin(win:BrowserWindow|null) {
-  // 创建浏览器窗口
-  win = new BrowserWindow({
-    width: 1920,
-    height: 1080,
-    minWidth:600,
-    minHeight:270,
-    autoHideMenuBar: true,
-    frame:false,
-    backgroundColor:'#eee',
-    webPreferences: {
-      nodeIntegration: true,
-      enableRemoteModule:true,
-      // webSecurity:false,
-      // allowRunningInsecureContent:true
-      // experimentalFeatures:true
-    }
-  })
 
-  const URL = is_dev
-    ? `http://localhost:${process.env.PORT}` // vite 启动的服务器地址
-    : `file://${join(__dirname, '../render/dist/index.html')}` // vite 构建后的静态文件地址
-
-  win.loadURL(URL)
-  /** 默认打开 devtool */
-  win.webContents.openDevTools()
-}
-
-// 
 app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors');
 // app.disableHardwareAcceleration()
 app.on('ready',()=>{

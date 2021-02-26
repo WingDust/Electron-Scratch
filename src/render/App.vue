@@ -6,11 +6,23 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import HelloWorld from './components/HelloWorld.vue'
-
+import { Event,Emitter } from "../common/utils/base/event";
+import { ipcRenderer } from "electron";
 export default defineComponent({
   name: 'App',
   components: {
     HelloWorld
+  },
+  setup(){
+    ipcRenderer.send('ipc:hello','hello')
+
+    let emit = new Emitter({
+      onFirstListenerAdd:(...args:any[])=>{
+        console.trace(args)
+      }
+    })
+    console.log(emit);
+    console.log(emit.event);
   }
 })
 </script>
