@@ -442,7 +442,6 @@ export class Emitter<T> {
   // 初始化事件函数
   // 1. 注册各种事件监听生命周期回调：第一个监听添加、最后一个监听移除等。
   // 2. 返回事件取消监听函数，本质是从 linkedlist 中 移除对应监听。
-  // get 返回值作为
   get event(): Event<T> {
     if (!this._event) { // 如果事件存在
       this._event = (

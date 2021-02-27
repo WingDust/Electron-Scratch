@@ -12,6 +12,7 @@ import { VSBuffer } from 'src/common/utils/base/buffer';
 import { serialize } from 'src/common/utils/base/buffer-utils';
 
 function doesNotReturn() {
+  console.log('does');
 }
 // 箭头函数代码中只有一行，可去掉大括号，写成 void [code]
 let fn1 = () => void doesNotReturn();
@@ -26,13 +27,47 @@ const onHello = Event.fromNodeEventEmitter<re>(ipcMain,'ipc:hello',(e,m)=>({e,m}
 Event.filter(onHello,(e:re)=>{
   return e.e.frameId === 1
 })
-onHello((e)=>{
-  console.trace(e);
-  // console.log(args);
+// onHello 则是包装
+onHello((e)=>{ // 参数是事件的处理函数
+  console.trace(e.m);
 })
+// ipcRenderer.send('ipc:hello','hello') 这个事件的触发
 
-ipcMain.on('ipc:hello',(e:Electron.IpcMainEvent,args:any)=>{
+interface option{
+  do:Function,
+  re:Function
+}
+//@ts-ignore
+doesNotReturn('asdas')
+class tst<T>{
+  #option:option
+  event?:Event<T>
+  // get e():Event<T>{
+  get e():any{
+    
+    return this.#option.do(this)
+  }
+  constructor(option:option){
+    this.#option=option
+  }
+}
+// 情况一
+let t = new tst({
+  do(e:any){
+    // console.log("do");
+    console.log(`do-e:`);
+    console.log(e);
+    console.log(`do-this:`);
+    console.log(this);
+    
+    // return 1
+},re(){
+    console.log(`re:`+this);
+  }
 })
+console.log(t.e);
+
+
 
 
 

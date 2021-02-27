@@ -155,6 +155,10 @@ function createMainWin(win) {
         webPreferences: {
             nodeIntegration: true,
             enableRemoteModule: true,
+            contextIsolation: false
+            // webSecurity:false,
+            // allowRunningInsecureContent:true
+            // experimentalFeatures:true
         }
     });
     const URL = electronIsDev
@@ -882,7 +886,6 @@ class Emitter {
     // 初始化事件函数
     // 1. 注册各种事件监听生命周期回调：第一个监听添加、最后一个监听移除等。
     // 2. 返回事件取消监听函数，本质是从 linkedlist 中 移除对应监听。
-    // get 返回值作为
     get event() {
         if (!this._event) { // 如果事件存在
             this._event = (listener, thisArgs, // 指定事件执行对象
@@ -988,16 +991,44 @@ Emitter._noop = function () { }; // 空操作
 /**
  * electron 主文件
  */
+function doesNotReturn() {
+    console.log('does');
+}
 const onHello = Event.fromNodeEventEmitter(electron.ipcMain, 'ipc:hello', (e, m) => ({ e, m }));
 Event.filter(onHello, (e) => {
     return e.e.frameId === 1;
 });
+// onHello 则是包装
 onHello((e) => {
-    console.trace(e);
-    // console.log(args);
+    console.trace(e.m);
 });
-electron.ipcMain.on('ipc:hello', (e, args) => {
+//@ts-ignore
+doesNotReturn();
+class tst {
+    constructor(option) {
+        this.#option = option;
+    }
+    #option;
+    // get e():Event<T>{
+    get e() {
+        return this.#option.do(this);
+    }
+}
+// 情况一
+let t = new tst({
+    do(e) {
+        // console.log("do");
+        console.log(`do-e:`);
+        console.log(e);
+        console.log(`do-this:`);
+        console.log(this);
+        // return 1
+    },
+    re() {
+        console.log(`re:` + this);
+    }
 });
+console.log(t.e);
 console.log("Main 进程");
 main.config({ path: path.join(__dirname, '../../.env') });
 var win = null;
