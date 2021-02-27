@@ -33,39 +33,8 @@ onHello((e)=>{ // 参数是事件的处理函数
 })
 // ipcRenderer.send('ipc:hello','hello') 这个事件的触发
 
-interface option{
-  do:Function,
-  re:Function
-}
 //@ts-ignore
 doesNotReturn('asdas')
-class tst<T>{
-  #option:option
-  event?:Event<T>
-  // get e():Event<T>{
-  get e():any{
-    
-    return this.#option.do(this)
-  }
-  constructor(option:option){
-    this.#option=option
-  }
-}
-// 情况一
-let t = new tst({
-  do(e:any){
-    // console.log("do");
-    console.log(`do-e:`);
-    console.log(e);
-    console.log(`do-this:`);
-    console.log(this);
-    
-    // return 1
-},re(){
-    console.log(`re:`+this);
-  }
-})
-console.log(t.e);
 
 
 
