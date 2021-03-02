@@ -443,7 +443,8 @@ export class Emitter<T> {
   // 1. 注册各种事件监听生命周期回调：第一个监听添加、最后一个监听移除等。
   // 2. 返回事件取消监听函数，本质是从 linkedlist 中 移除对应监听。
   get event(): Event<T> {
-    if (!this._event) { // 如果事件存在
+	// console.log('event run');
+    if (!this._event) { // 如果事件不存在
       this._event = (
         listener: (e: T) => any,
         thisArgs?: any, // 指定事件执行对象

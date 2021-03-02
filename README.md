@@ -26,3 +26,6 @@
 
   - ![](Unable%20find%20Electron%20App%20at.png)
     - 没有在 package.json 中写 `"main":"src/main/_.js",`
+
+## Test
+  - ipc 通信通过两个渲染进程来进行测试

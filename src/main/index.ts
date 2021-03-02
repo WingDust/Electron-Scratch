@@ -24,17 +24,31 @@ interface re{
   m:any
 }
 const onHello = Event.fromNodeEventEmitter<re>(ipcMain,'ipc:hello',(e,m)=>({e,m}))
-Event.filter(onHello,(e:re)=>{
+const on = Event.filter(onHello,(e:any)=>{
+  debugger
+  console.debug() 
+  console.log(e);
   return e.e.frameId === 1
-})
-// onHello 则是包装
-onHello((e)=>{ // 参数是事件的处理函数
-  console.trace(e.m);
-})
-// ipcRenderer.send('ipc:hello','hello') 这个事件的触发
+}) // 这里的 on 是从 snapshot 返回出来的默认事件函数，而
 
-//@ts-ignore
-doesNotReturn('asdas')
+
+on((e)=>{ // 参数是事件的处理函数，即监听函数
+  debugger
+  console.debug() 
+  console.trace(e.m);
+}) 
+// 这句执行后，传入了监听函数，也会执行 snapshot 中 _options 的函数 ，
+// 即用 filter 中定义传入 snapshot 中的事件函数执行
+// 
+
+
+
+
+// onHello 则是包装
+// onHello((e)=>{ // 参数是事件的处理函数
+//   console.trace(e.m);
+// })
+// ipcRenderer.send('ipc:hello','hello') 这个事件的触发
 
 
 

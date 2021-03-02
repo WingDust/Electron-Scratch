@@ -887,7 +887,8 @@ class Emitter {
     // 1. 注册各种事件监听生命周期回调：第一个监听添加、最后一个监听移除等。
     // 2. 返回事件取消监听函数，本质是从 linkedlist 中 移除对应监听。
     get event() {
-        if (!this._event) { // 如果事件存在
+        // console.log('event run');
+        if (!this._event) { // 如果事件不存在
             this._event = (listener, thisArgs, // 指定事件执行对象
             disposables) => {
                 if (!this._listeners) { // 由于是类的可选属性所以要判断是否为存在
@@ -991,44 +992,26 @@ Emitter._noop = function () { }; // 空操作
 /**
  * electron 主文件
  */
-function doesNotReturn() {
-    console.log('does');
-}
 const onHello = Event.fromNodeEventEmitter(electron.ipcMain, 'ipc:hello', (e, m) => ({ e, m }));
-Event.filter(onHello, (e) => {
+const on = Event.filter(onHello, (e) => {
+    debugger;
+    console.debug();
+    console.log(e);
     return e.e.frameId === 1;
-});
-// onHello 则是包装
-onHello((e) => {
+}); // 这里的 on 是从 snapshot 返回出来的默认事件函数，而
+on((e) => {
+    debugger;
+    console.debug();
     console.trace(e.m);
 });
-//@ts-ignore
-doesNotReturn();
-class tst {
-    constructor(option) {
-        this.#option = option;
-    }
-    #option;
-    // get e():Event<T>{
-    get e() {
-        return this.#option.do(this);
-    }
-}
-// 情况一
-let t = new tst({
-    do(e) {
-        // console.log("do");
-        console.log(`do-e:`);
-        console.log(e);
-        console.log(`do-this:`);
-        console.log(this);
-        // return 1
-    },
-    re() {
-        console.log(`re:` + this);
-    }
-});
-console.log(t.e);
+// 这句执行后，传入了监听函数，也会执行 snapshot 中 _options 的函数 ，
+// 即用 filter 中定义传入 snapshot 中的事件函数执行
+// 
+// onHello 则是包装
+// onHello((e)=>{ // 参数是事件的处理函数
+//   console.trace(e.m);
+// })
+// ipcRenderer.send('ipc:hello','hello') 这个事件的触发
 console.log("Main 进程");
 main.config({ path: path.join(__dirname, '../../.env') });
 var win = null;
