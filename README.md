@@ -1,12 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2021-01-31 11:40:12
- * @LastEditTime: 2021-01-31 11:51:27
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \vite-Vue3-Vuex4-electron-TypeScript-tailwindcss\READMD.md
--->
-
 ## Create project
   - yarn create @vitejs/app
     - project name
@@ -18,6 +9,13 @@
     - autoprefixer
     - tailwindcss
     - postcss
+    - 
+
+## npm script
+  - "dev:ele": "node script/build --env=development --watch",
+
+## Vite
+  - 编译 TypeScript 测试
     - 
 
 ## git branch

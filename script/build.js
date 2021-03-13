@@ -3,10 +3,13 @@
  */
 const path = require('path');
 const rollup = require('rollup');
+// @ts-ignore
 const argv = require('minimist')(process.argv.slice(2));
 const chalk = require('chalk');
 const ora = require('ora');
+// @ts-ignore
 const waitOn = require('wait-on');
+// @ts-ignore
 const electron = require('electron-connect').server.create({ stopOnClose: true });
 require('dotenv').config({ path: path.join(__dirname, '../.env') })
 const options = require('./rollup.config');
@@ -26,6 +29,7 @@ if (argv.watch) {
     }
 
     // once here, all resources are available
+    // @ts-ignore
     const watcher = rollup.watch(opt);
     watcher.on('change', filename => {
       const log = chalk.green(`change -- ${filename}`);
@@ -40,10 +44,12 @@ if (argv.watch) {
   });
 } else {
   spinner.start();
+  // @ts-ignore
   rollup.rollup(opt)
     .then(build => {
       spinner.stop();
       console.log(TAG, chalk.green('Electron build successed.'));
+      // @ts-ignore
       build.write(opt.output);
     })
     .catch(error => {

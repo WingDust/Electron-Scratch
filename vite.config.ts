@@ -38,8 +38,12 @@ return source
 // https://vitejs.dev/config/
 export default defineConfig({
   root:join(__dirname,'src/render'),
+  // root:__dirname,
   base:'./',
   server:{
+    watch:{
+
+    },
     port: +process.env.PORT,
     hmr: { overlay: false },
   },

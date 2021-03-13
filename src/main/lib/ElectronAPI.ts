@@ -2,7 +2,6 @@ import { BrowserWindow } from "electron";
 import is_dev from 'electron-is-dev'
 import { join } from 'path'
 
-
 // function createMainWin(win:BrowserWindow|null,serverwin2:BrowserWindow|null) {
 function createMainWin(win:BrowserWindow|null) {
   // 创建浏览器窗口
